@@ -13,7 +13,7 @@ class ThemeProvider with ChangeNotifier {
 
   // setter method to set the new theme
   set themeData(ThemeData themeData) {
-    _themeData = _themeData;
+    _themeData = themeData;
     notifyListeners();
   }
 

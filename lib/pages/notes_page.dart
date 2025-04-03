@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:minimal_notes_app/components/drawer.dart';
+import 'package:minimal_notes_app/components/note_tile.dart';
 import 'package:minimal_notes_app/models/note.dart';
 import 'package:minimal_notes_app/models/notes_database.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,7 @@ class _NotesPageState extends State<NotesPage> {
   //create a note
   void createNote(){
     showDialog(context: context, builder: (context) => AlertDialog(
+      backgroundColor: Theme.of(context).colorScheme.background,
       content: TextField(
         controller: textController,
       ),
@@ -60,6 +62,7 @@ class _NotesPageState extends State<NotesPage> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.background,
           title: Text("Update Note"),
           content: TextField(controller: textController,),
           actions: [
@@ -102,7 +105,8 @@ class _NotesPageState extends State<NotesPage> {
       backgroundColor: Theme.of(context).colorScheme.background,
       floatingActionButton: FloatingActionButton(
         onPressed: createNote,
-        child: const Icon(Icons.add),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        child:  Icon(Icons.add, color: Theme.of(context).colorScheme.inversePrimary,),
       ),
       drawer: MyDrawer(),
       body: Column(
@@ -129,24 +133,10 @@ class _NotesPageState extends State<NotesPage> {
                   final note = currentNotes[index];
 
                   //return ListTile
-                  return ListTile(
-                    title: Text(note.text),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        //edit button
-                        IconButton(
-                            onPressed: () => updateNotes(note),
-                            icon: Icon(Icons.edit)
-                        ),
-
-                        //delete button
-                        IconButton(
-                            onPressed: () => deleteNote(note.id),
-                            icon: Icon(Icons.delete)
-                        )
-                      ],
-                    ),
+                  return NoteTile(
+                      text: note.text,
+                      onDeletePressed: () => deleteNote(note.id),
+                      onEditPressed: () => updateNotes(note),
                   );
 
                 }
